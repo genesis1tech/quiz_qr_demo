@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+        }
+        
+        .screen {
+            width: 800px;
+            height: 480px;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .quiz-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+        .question {
+            font-size: 24px;
+            margin: 20px;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 40px;
+        }
+
+        button {
+            padding: 20px 40px;
+            font-size: 20px;
+            border: none;
+            border-radius: 10px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            min-width: 200px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .thank-you {
+            display: none;
+            font-size: 32px;
+        }
+
+        .qr-code {
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        .qr-code img {
+            max-width: 200px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="screen">
+        <div class="quiz-screen">
+            <div class="question">What is your preferred choice?</div>
+            <div class="qr-code">
+                <img id="qrcode" src="" alt="QR Code">
+            </div>
+            <div class="buttons">
+                <button onclick="showThankYou()">Option A</button>
+                <button onclick="showThankYou()">Option B</button>
+            </div>
+        </div>
+        <div class="thank-you">Thank you for your response!</div>
+    </div>
+
+    <script>
+        function generateQRCode() {
+            const baseUrl = 'https://google.com';
+            const timestamp = new Date().getTime();
+            const uniqueUrl = `${baseUrl}?utm_source=qr&utm_medium=quiz&utm_campaign=${timestamp}`;
+            const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(uniqueUrl)}`;
+            document.getElementById('qrcode').src = qrApiUrl;
+        }
+
+        function showThankYou() {
+            document.querySelector('.quiz-screen').style.display = 'none';
+            document.querySelector('.thank-you').style.display = 'flex';
+            document.querySelector('.thank-you').style.justifyContent = 'center';
+            document.querySelector('.thank-you').style.alignItems = 'center';
+            document.querySelector('.thank-you').style.height = '100%';
+        }
+
+        window.onload = generateQRCode;
+    </script>
+</body>
+</html>
